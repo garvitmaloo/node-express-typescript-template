@@ -1,4 +1,7 @@
-export interface StandardResponse<T> {
-  error: null | string;
-  result: T;
+export interface IStandardResponse<T> {
+  error: {
+    statusCode: number;
+    message: string;
+  };
+  result: T | null;
 }
