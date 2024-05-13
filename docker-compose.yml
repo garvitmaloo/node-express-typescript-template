@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db:/data/db
+
+  node-template-app:
+    image: node-typescript-template:v2
+    container_name: node-template-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${PORT}:${PORT}
+    restart: always
+    depends_on:
+      - mongodb
+    volumes:
+      - ./:/app
+    environment:
+      - PORT=${PORT}
+      - MONGO_URL=mongodb://mongodb:27017/node-template-app
+
+volumes:
+  mongodb-data:
